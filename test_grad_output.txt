@@ -1,0 +1,49 @@
+----------------------------------------
+Test affine_backward
+Testing x=((4, 7)), W=((7, 6)), b=(6)
+dx error: 3.0379053366089105e-12
+dW error: 4.293923330154536e-12
+db error: 5.709223965456765e-12
+----------------------------------------
+Test affine_all_backward
+Testing x=((4, 7)), W=((7, 6)), b=(6)
+dx error: 3.425163607247057e-12
+dW error: 2.8347880952712084e-12
+db error: 1.3573166582569999e-12
+----------------------------------------
+Test vanilla_backward
+Testing x=((13, 8)), Wx=((8, 11)), b=(11), h_prev=((13, 11)), Wh=((11, 11))
+dx error: 1.7418623356861288e-12
+dWx error: 1.75824636726543e-12
+db error: 1.0053824913069347e-12
+dh_prev error: 2.552137752572221e-12
+dWh error: 2.025712513296682e-12
+----------------------------------------
+Test lstm_backward. There are two outputs c and h, \    so the total gradient is the sum from each contribution
+Testing x=(7, 6), Wx=(6, 8), b=8, h_prev=(7, 8), Wh=(8, 8)
+dx error: 1.4331513848550906e-11
+dWx error: 3.618055721843059e-11
+db error: 2.905627488519064e-11
+dh_prev error: 1.2429060961468623e-11
+dWh error: 3.487629647351281e-11
+dc_prev error: 1.7534985699844576e-11
+----------------------------------------
+Test softmax_loss.
+Testing x=(7, 6), y = (7,)
+Loss should be ~1.9459101490553132, computed value:2.142160431761796
+dx error: 4.6849351444943914e-11
+----------------------------------------
+Test vanilla_all_backward
+dx error: 4.003645882210019e-12
+dWx error: 3.450346122399046e-14
+db error: 1.901091341203405e-14
+dWh error: 8.708737927769985e-14
+----------------------------------------
+Test lstm_all_backward.
+dx error: 9.546634325718379e-12
+dWx error: 3.7402470497815745e-13
+db error: 3.581105278510806e-13
+dWh error: 8.899011946432909e-13
+----------------------------------------
+Testing W_embed backward derivative
+dW_embed error: 1.2675096524747812e-14
