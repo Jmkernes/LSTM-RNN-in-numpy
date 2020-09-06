@@ -125,4 +125,4 @@ class RNN(object):
             x = np.expand_dims(x, axis=0)
 
         # return index list
-        print(''.join([self.idx_to_char[i] for i in idxs]))
+        return ''.join([self.idx_to_char[i] for i in idxs])
