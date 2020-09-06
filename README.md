@@ -1,7 +1,7 @@
 # LSTM-RNN-in-numpy
 Implementation of long-short term memory recurrent neural network using only numpy. This is heavily influenced by Andrej Karpathy's min_char model, though with many more features.
 
-To directly get started, you can use the pretrained model "", which was trained over 20,000 iterations at sequence length 50, hidden dimension of 200, input dimension of 1/4 vocab_size, LSTM cells, and minibatch size 16. To import it into a python session, run the commands
+To directly get started, you can use the pretrained model "model_LSTM_h200_T50_D22", which was trained over 20,000 iterations at sequence length 50, hidden dimension of 200, input dimension of 1/4 vocab_size, LSTM cells, and minibatch size 16. We also have its associated solver function, in case you want to train more, or train on a new dataset. To import it into a python session, run the commands
 
 import pickle
 filehandler = open(filename, 'r') 
@@ -14,7 +14,8 @@ The file main.ipynb is a Jupyter notebook showing the training of a single model
 Rnns.py contains the RNN class, which instantiates either an LSTM recurrent neural network or a vanilla recurrent neural network
 solver.py contains the solver class, which takes as arguments an RNN class and data, and trains the RNN.
 
-The following modules are called by the previous two: layers.py -> contains all of the forward and backward pass functions. The backpropagation gradients are checked numerically via the num_grad function defiend in the file "gradient_checking.py". We can run a full suite of tests on all layer functions by running -> python3 test_gradient_checking.py.
+The following modules are called by the previous two: layers.py -> contains all of the forward and backward pass functions. The backpropagation gradients are checked numerically via the num_grad function defiend in the file "gradient_checking.py". We can run a full suite of tests on all layer functions by running -> python3 test_gradient_checking.py. An output file showing all of our checks is in the file test_gradient_output.txt
+
 optim.py contains the Optimizer class. This keeps track of moving averages in various update rules. It's methods update parameters via gradient descent provided we supply them with a parameter dictionary (form the model class) and a gradient dictionary. These dictionaries MUST use the keys.
 
 To test our model, we train the RNN on the full text of Jane Austen's Pride and Prejudice, availble for free on the web from gutenberg books. A zip file is contained in pride.zip, as well as text file pride.txt consiting of one long string.
