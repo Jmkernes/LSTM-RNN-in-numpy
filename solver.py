@@ -2,7 +2,7 @@ import numpy as np
 from optim import *
 
 class Solver:
-    def __init__(self, data, model, seq_length=25, batch_size=8, lr=1e-1, num_iters=2000, print_every=100):
+    def __init__(self, data, model, seq_length=25, batch_size=8, lr=1e-1, num_iters=2000, print_every=100, update_rule='RMSProp'):
         """A helper function that can be used to train a given model.
         Inputs: data -> must be a 1D array of integers representing characters.
                 model -> a class instance of the model to train. This will NOT reset model parameters
@@ -22,6 +22,8 @@ class Solver:
         self.batch_size = batch_size
         self.num_iters = num_iters
         self.print_every = print_every
+        self.update_rule = update_rule
+        self.optimizer = Optimizer(self.model, lr=self.lr)
         self.loss_history = []
 
     def _minibatch_generator(self):
@@ -45,15 +47,19 @@ class Solver:
         You must manually specify the choice of optimizer here, replacing optimizer.RMSprop(grads) with
         optimizer.(...). See optim.py for options. We implement learning rate decay every 500 iterations"""
         mini_batch = self._minibatch_generator()
-        optimizer = Optimizer(self.model, lr=self.lr)
         for i in range(self.num_iters):#epoch_size*self.num_epochs):
             inputs, targets = next(mini_batch)
             loss, grads = self.model.loss(inputs, targets)
             self.loss_history.append(loss)
-            optimizer.RMSProp(grads)
+            if self.update_rule == 'RMSProp':
+                self.optimizer.RMSProp(grads)
+            elif self.update_rule == 'adam':
+                self.optimizer.adam(grads, slow_start=False)
+            elif self.update_rule == 'SGD':
+                self.optimizer.SGD(grads)
             if i % self.print_every == 0:
                 print(f"Iteration {i}/{self.num_iters}. Loss = {loss}")
-            if i % (self.print_every*10) == 0:
+            if i % (self.print_every*3) == 0:
                 print(f"{self.model.sample(np.random.choice(self.model.vocab_dim), T=60)}")
             # learning rate decay
             if i % 500 == 0:
